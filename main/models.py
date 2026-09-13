@@ -25,3 +25,18 @@ class Experience(models.Model):
     @property
     def is_ongoing(self):
         return self.ended_at is None
+
+class Education(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    school = models.CharField(max_length=225)
+    degree = models.CharField(max_length=255)
+    started_year = models.IntegerField()
+    ended_year = models.IntegerField(blank=True, null=True)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.degree} - {self.school}"
+
+    @property
+    def is_ongoing(self):
+        return self.ended_year is None

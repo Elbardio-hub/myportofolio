@@ -12,3 +12,23 @@ Kelas : PBP D
 
 ### AI Disclosure
 Menggunakan Gemini untuk memahami konsep dasar dan sintaks HTML semantik serta tata letak CSS, Membantu menemukan elemen HTML semantik dan sintaks CSS yang sesuai dengan tampilan/fitur yang ingin saya buat, Membantu memecahkan masalah khusunya pada tata letak yang menurut saya yang baru belajar agak susah untuk dipelajari.
+
+### Tugas 2
+1. 
+- Permintaan masuk: Ketika Pengguna mengakses URL misalnya (`/education/`) request tsb pertama kali diterima oleh proyek di 'portofolio/urls.py'
+- Routing Proyek: melalui fungsi `include('main.urls')`, request diteruskan ke konfigurasi rute aplikasi pada `main/urls.py`
+- Routing Aplikasi: `main/urls.py` mencocokkan path `/education/` dan memanggil view terkait, yaitu fungsi `show_education`
+- Logika View dan Pemanggilan model: `show_education` mengambil data riwayat pendidikan dari basis data menggunakan ORM Django (`Education.objects.all()`)
+- Penyusunan Context dan Rendering Template: View mengemas data model tersebut ke dalam dictionary `context`, lalu meneruskannya bersama template `education.html` ke fungsi `render()`
+- Respons ke browser: Django Template Engine memproses template dan context menjadi berkas HTML dinamis yang utuh, lalu mengembalikannya sebagai `HttpResponse` dengan kode status 200 ke pengguna
+
+2. Menyimpan data di model menerapkan prinsip pemisahan tanggung jawab antara data dan tampilan antarmuka. Keuntungannya anatar lain:
+- Kemudahan Pemeliharaan: Jika ingin menambah, mengedit, atau menghapus riwayat pendidikan, kita tidak perlu membongkar struktur kode HTML. Cukup memperbarui data melalui ORM atau panel admin basis data.
+- Skalabilitas & Konsistensi: Tampilan HTML menjadi dinamis dan konsisten karena cukup ditulis satu kali menggunakan perulangan DTL (`{% for %}`). Berapa pun banyaknya data yang tersimpan, struktur antarmukanya akan otomatis menyesuaikan tanpa menduplikasi tag HTML secara manual.
+
+3. Perbedaan `makemigrations` dan `migrate` adalah:
+- `makemigrations` berfungsi untuk mendeteksi perubahan pada model kode Python dan menyusun berkas instruksi cetak biru migrasi baru di folder `migrations/`. Perintah ini belum mengubah struktur tabel di dalam basis data nyata
+- Sementara itu `migrate` berfungsi untuk mengeksekusi berkas migrasi yang sudah dibuat tersebut secara nyata ke dalam basis data lokal sehingga skema tabel diperbarui sesuai definisi model
+
+### AI Disclosure
+Menggunakan gemini ketika mengalami kendala selama pengerjaan seperti menanyakan syntax dan memahami suatu baris kode secara lebih dalam. Mostly saya mengikuti tutorial 2.
