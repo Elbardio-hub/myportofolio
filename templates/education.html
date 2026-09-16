@@ -1,59 +1,38 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Education - {{ name }}</title>
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
-<body>
-    <header class="site-header">
-        <div class="container">
-            <a href="{% url 'main:show_main' %}" class="brand">{{ name }}</a>
-            <nav>
-                <a href="{% url 'main:show_main' %}">Profile</a>
-                <a href="#achievements">Achievements</a>
-                <a href="{% url 'main:show_experience' %}">Experience</a>
-                <a href="{% url 'main:show_education' %}">Education</a>
-            </nav>
-        </div>
-    </header>
+{% extends 'base.html' %}
 
-    <main>
-        <section class="experience-section" id="education">
-            <div class="container">
-                <p class="section-kicker">Latar Belakang Akademis</p>
-                <h1>Education</h1>
-                
-                <div class="experience-grid">
-                    {% for edu in education_list %}
-                        <article class="experience-card">
-                            <span class="experience-category">
-                                {{ edu.started_year }} - {% if edu.is_ongoing %}Sekarang{% else %}{{ edu.ended_year }}{% endif %}
-                            </span>
-                            <h2>{{ edu.degree }}</h2>
-                            <h3 style="font-size: 1rem; color: var(--ink); margin-bottom: 0.5rem;">{{ edu.school }}</h3>
-                            {% if edu.description %}
-                                <p class="experience-description">{{ edu.description }}</p>
-                            {% endif %}
-                            {% if edu.is_ongoing %}
-                                <p class="experience-status">Sedang ditempuh</p>
-                            {% else %}
-                                <p class="experience-status">Lulus</p>
-                            {% endif %}
-                        </article>
-                    {% empty %}
-                        <p class="empty-state">Belum ada data pendidikan yang ditambahkan.</p>
-                    {% endfor %}
-                </div>
+{% block meta %}
+<title>Education - {{ name }}</title>
+{% endblock meta %}
+
+{% block content %}
+<main>
+    <section class="experience-section" id="education">
+        <div class="container">
+            <p class="section-kicker">Latar Belakang Akademis</p>
+            <h1>Education</h1>
+            
+            <div class="experience-grid">
+                {% for edu in education_list %}
+                    <article class="experience-card">
+                        <span class="experience-category">
+                            {{ edu.started_year }} - {% if edu.is_ongoing %}Sekarang{% else %}{{ edu.ended_year }}{% endif %}
+                        </span>
+                        <h2>{{ edu.degree }}</h2>
+                        <h3 style="font-size: 1rem; color: var(--ink); margin-bottom: 0.5rem;">{{ edu.school }}</h3>
+                        {% if edu.description %}
+                            <p class="experience-description">{{ edu.description }}</p>
+                        {% endif %}
+                        {% if edu.is_ongoing %}
+                            <p class="experience-status">Sedang ditempuh</p>
+                        {% else %}
+                            <p class="experience-status">Lulus</p>
+                        {% endif %}
+                    </article>
+                {% empty %}
+                    <p class="empty-state">Belum ada data pendidikan yang ditambahkan.</p>
+                {% endfor %}
             </div>
-        </section>
-    </main>
-
-    <footer class="site-footer">
-        <div class="container">
-            <p>&copy; 2026 {{ name }}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
         </div>
-    </footer>
-</body>
-</html>
+    </section>
+</main>
+{% endblock content %}

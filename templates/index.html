@@ -1,114 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ name }} - Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
-<body>
-    <header class="site-header">
-        <div class="container">
-            <a href="{% url 'main:show_main' %}" class="brand">{{ name }}</a>
-            <nav>
-                <a href="{% url 'main:show_main' %}">Profile</a>
-                <a href="#achievements">Achievements</a>
-                <a href="{% url 'main:show_experience' %}">Experience</a>
-                <a href="{% url 'main:show_education' %}">Education</a>
-            </nav>
-        </div>
-    </header>
+{% extends 'base.html' %}
 
-    <main>
-        <section class="hero" id="profile">
-            <div class="container hero-grid">
-                <div class="hero-identity">
-                    <p class="hero-kicker">Computer Science &middot; Universitas Indonesia</p>
-                    <h1>{{ name }}</h1>
-                </div>
-                <div class="hero-photo">
-                    <div class="photo-block"></div>
-                    <img class="avatar" src="/static/img/arduy.jpeg" alt="Photo of {{ name }}">
-                </div>
-                <div class="hero-details">
-                    <p class="bio">{{ bio }}</p>
-                    <dl class="meta-list">
-                        <div class="meta-row">
-                            <dt>NPM</dt>
-                            <dd>{{ npm }}</dd>
-                        </div>
-                        <div class="meta-row">
-                            <dt>Program</dt>
-                            <dd>{{ study_program }}</dd>
-                        </div>
-                    </dl>
-                    <div class="social-links">
-                        <a href="https://github.com/Elbardio-hub" class="social-link">GitHub</a>
-                        <a href="https://www.linkedin.com/in/ahyan-timuardi-635219380/" class="social-link">LinkedIn</a>
-                        <a href="mailto:timuardiahyan@gmail.com" class="social-link">Email</a>
+{% block content %}
+<main>
+    <section class="hero" id="profile">
+        <div class="container hero-grid">
+            <div class="hero-identity">
+                <p class="hero-kicker">Computer Science &middot; Universitas Indonesia</p>
+                <h1>{{ name }}</h1>
+            </div>
+            <div class="hero-photo">
+                <div class="photo-block"></div>
+                <img class="avatar" src="/static/img/arduy.jpeg" alt="Photo of {{ name }}">
+            </div>
+            <div class="hero-details">
+                <p class="bio">{{ bio }}</p>
+                <dl class="meta-list">
+                    <div class="meta-row">
+                        <dt>NPM</dt>
+                        <dd>{{ npm }}</dd>
                     </div>
+                    <div class="meta-row">
+                        <dt>Program</dt>
+                        <dd>{{ study_program }}</dd>
+                    </div>
+                </dl>
+                <div class="social-links">
+                    <a href="https://github.com/Elbardio-hub" class="social-link">GitHub</a>
+                    <a href="https://www.linkedin.com/in/ahyan-timuardi-635219380/" class="social-link">LinkedIn</a>
+                    <a href="mailto:timuardiahyan@gmail.com" class="social-link">Email</a>
                 </div>
             </div>
-        </section>
-
-        <!--Section baru achievment-->
-        <section class="achievements-section" id="achievements">
-            <div class="container">
-                <p class="section-kicker">Honors &amp; Awards</p>
-                <h2 class="section-title">Achievements</h2>
-                <div class="achievements-grid">
-                    <!-- Pencapaian 1 -->
-                     <article class="achievement-card">
-                        <div class="cert-img-wrapper">
-                            <img class="cert-img" src="static/img/sertif1.png" alt="Sertifikat Lomba 1"/>
-                        </div>
-                        <div class="achievement-info">
-                            <span class="badge">1st place</span>
-                            <h3>Cerdas Cermat Matematika</h3>
-                            <p class="organizer">GEBYAR MATEMATIKA 2023 &middot; FKIP ULM</p>
-                            <p class="desc">Meraih Juara 1 dalam kompetisi cerdas cermat matematika beregu tingkat SMA/MA sederajat se-Kalimantan Selatan dan Kalimantan Tengah yang diselenggarakan oleh HIMPATIKA ULM.</p>
-                        </div>
-                     </article>
-
-                     <!-- Pencapaian 2 -->
-                      <article class="achievement-card">
-                        <div class="cert-img-wrapper">
-                            <img class="cert-img" src="/static/img/sertif2.png" alt="Sertifikat Lomba 2"/>
-                        </div>
-                        <div class="achievement-info">
-                            <span class="badge">2nd Place</span>
-                            <h3>Quiz Matematika</h3>
-                            <p class="organizer">GEBYAR MATEMATIKA 2024 &middot; FKIP ULM</p>
-                            <p class="desc">Berhasil meraih Juara 2 pada ajang kuis matematika individu tingkat SMA/MA se-Kalimantan Selatan dan Kalimantan Tengah yang diadakan oleh HIMPATIKA FKIP Universitas Lambung Mangkurat.</p>
-                        </div>
-                      </article>
-
-                      <!-- Pencapaian 3 -->
-                       <article class="achievement-card">
-                        <div class="cert-img-wrapper">
-                            <img class="cert-img" src="/static/img/sertif3.png" alt="Sertifikat Lomba 3"/>
-                        </div>
-                        <div class="achievement-info">
-                            <span class="badge">3rd Place</span>
-                            <h3>Mathematics Challenge</h3>
-                            <p class="organizer">Mathematics Challenge 2024 &middot; HMM "REAL" FMIPA ULM</p>
-                            <p class="desc">Meraih Juara 3 tingkat nasional pada ajang Mathematics Challenge 2024 jenjang SMA/Sederajat yang diselenggarakan oleh Himpunan Mahasiswa Matematika FMIPA Universitas Lambung Mangkurat.</p>
-                        </div>
-                       </article>
-                </div>
-            </div>
-
-        </section>
-    </main>
-
-    <footer class="site-footer">
-        <div class="container">
-            <p>&copy; 2026 {{ name }}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
         </div>
-    </footer>
-</body>
-</html>
+    </section>
 
+    <!--Section baru achievment-->
+    <section class="achievements-section" id="achievements">
+        <div class="container">
+            <p class="section-kicker">Honors &amp; Awards</p>
+            <h2 class="section-title">Achievements</h2>
+            <div class="achievements-grid">
+                <!-- Pencapaian 1 -->
+                <article class="achievement-card">
+                    <div class="cert-img-wrapper">
+                        <img class="cert-img" src="static/img/sertif1.png" alt="Sertifikat Lomba 1"/>
+                    </div>
+                    <div class="achievement-info">
+                        <span class="badge">1st place</span>
+                        <h3>Cerdas Cermat Matematika</h3>
+                        <p class="organizer">GEBYAR MATEMATIKA 2023 &middot; FKIP ULM</p>
+                        <p class="desc">Meraih Juara 1 dalam kompetisi cerdas cermat matematika beregu tingkat SMA/MA sederajat se-Kalimantan Selatan dan Kalimantan Tengah yang diselenggarakan oleh HIMPATIKA ULM.</p>
+                    </div>
+                </article>
+
+                <!-- Pencapaian 2 -->
+                <article class="achievement-card">
+                    <div class="cert-img-wrapper">
+                        <img class="cert-img" src="/static/img/sertif2.png" alt="Sertifikat Lomba 2"/>
+                    </div>
+                    <div class="achievement-info">
+                        <span class="badge">2nd Place</span>
+                        <h3>Quiz Matematika</h3>
+                        <p class="organizer">GEBYAR MATEMATIKA 2024 &middot; FKIP ULM</p>
+                        <p class="desc">Berhasil meraih Juara 2 pada ajang kuis matematika individu tingkat SMA/MA se-Kalimantan Selatan dan Kalimantan Tengah yang diadakan oleh HIMPATIKA FKIP Universitas Lambung Mangkurat.</p>
+                    </div>
+                </article>
+
+                <!-- Pencapaian 3 -->
+                <article class="achievement-card">
+                    <div class="cert-img-wrapper">
+                        <img class="cert-img" src="/static/img/sertif3.png" alt="Sertifikat Lomba 3"/>
+                    </div>
+                    <div class="achievement-info">
+                        <span class="badge">3rd Place</span>
+                        <h3>Mathematics Challenge</h3>
+                        <p class="organizer">Mathematics Challenge 2024 &middot; HMM "REAL" FMIPA ULM</p>
+                        <p class="desc">Meraih Juara 3 tingkat nasional pada ajang Mathematics Challenge 2024 jenjang SMA/Sederajat yang diselenggarakan oleh Himpunan Mahasiswa Matematika FMIPA Universitas Lambung Mangkurat.</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock content %}
