@@ -32,3 +32,20 @@ Menggunakan Gemini untuk memahami konsep dasar dan sintaks HTML semantik serta t
 
 ### AI Disclosure
 Menggunakan gemini ketika mengalami kendala selama pengerjaan seperti menanyakan syntax dan memahami suatu baris kode secara lebih dalam. Mostly saya mengikuti tutorial 2.
+
+### Tugas 3
+1. Menggunakan ModelForm memberikan beberapa kelebihan daripada membuat form HTML secara manual diantaranya:
+- Mencegah Redundansi Kode: ketika kita menggunakan form HTML manual kita harus mengetik tag <input>, menentukan atribut type, name, batasan panjang (maxlength), hingga placeholder satu per satu di file template. Jika nanti ada field baru di database, kita harus mengedit model dan template HTML secara terpisah. Sementara itu ketika kita menggunakan ModelForm kita cukup mendefinisikan daftar field di forms.py (fields = [...]), Django akan otomatis membangkitkan semua elemen input yang sesuai dengan skema model basis data.
+- Validasi yang lebih aman: Ketika kita menggunakan form HTMl manual, validasi HTML biasa (seperti atribut required) sangat mudah diakali oleh user lewat Inspect Element. Karena itu, kita terpaksa menulis logika pengecekan manual yang panjang di views.py (misal mengecek apakah teks kosong, apakah format angka valid, dll.). Sementara itu ketika kita menggunakan ModelForm kita cukup memanggil method form.is_valid() dan Django akan langsung memvalidasi datanya.
+- Kemudahan menyimpan dan mempebarui data: Pada ModelForm jika kita ingin menambahkan data cukup jalankan form.save() atau jika ingin memperbarui data cukup tambahkan parameter instance=objek, lalu jalankan form.save() lagi. Semenetra itu jika kita ingin menamabah atau memperbarui data menggunakan Form HTML manual kita harus mengambil data satu per satu (request.POST.get('title'), dsb.) lalu memanggil perintah Model.objects.create(...) atau mencari objek lama untuk di-assign secara manual.
+
+2. JSON lebih disukai karena beberapa alasan, seperti:
+- Kemudahan Penggunaan: JSON lebih mudah dibaca manusia dan diolah mesin karena strukturnya sederhana. XML, meskipun lebih terstruktur, sering dianggap terlalu panjang dan rumit untuk aplikasi sederhana.
+- Efisiensi ukuran dan kecepatan: Karena JSON tidak menggunakan tag penutup, ukuran file JSON lebih kecil dibanding XML.
+Hasil studi Mozilla Developer Network (2024) menunjukkan bahwa parsing JSON rata-rata 35% lebih cepat daripada XML dalam proses komunikasi API.
+- Dukungan terhadap berbagai Tipe Data: JSON secara alami mendukung berbagai tipe data seperti angka, string, boolean, array, dan objek. Sementara XML memperlakukan semua isi elemen sebagai teks, sehingga pengembang perlu melakukan konversi manual ke tipe data lain.
+
+3. Alur yang terjadi ketika menggunakan fungsi view untuk mengembalikan data dalam bentuk JSON diawali ketika aplikasi klien mengakses endpoint API yang sudah didaftarkan. DI server, fungsi view menerima permintaan tsb dan menarik baris-baris rekaman yang dibutuhkan dari basis data melalui perantara Django ORM. Setelah data diambil, kumpulan objek model tersebut diproses oleh fungsi serialisasi milik Django (serializers.serialize('json', ...)) untuk diterjemahkan menjadi teks berformat JSON. Teks JSON ini kemudian dibungkus ke dalam objek HTTPResponse lengkap dengan content-type=application/json, lalu dikirimkan kembali lewat jaringan internet ke peramban atau klien yang memintanya. Proses serialisasi diperlukan karena data yang masih berwujud objek bahasa Python murni tidak bisa dipahami, dibaca, ataupun dikirim secara langsung melalui protokol komunikasi web ke pihak luar. Melalui serialisasi, objek Python yang kompleks diubah menjadi format teks standar dan universal seperti JSON, sehingga data tersebut dapat diterima, diparsing, serta diolah dengan mudah.
+
+### AI Disclosure
+Menggunakan gemini untuk membantu saya dalam membuat file html baru yang diperlukan seperti education_delete_modal.html, education_form.html, dan education_edit_form.html untuk menyesuaikannya dengan style.css yang sudah ada. Selebihnya saya mengikuti tutorial 3.

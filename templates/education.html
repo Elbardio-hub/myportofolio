@@ -9,27 +9,63 @@
     <section class="experience-section" id="education">
         <div class="container">
             <p class="section-kicker">Latar Belakang Akademis</p>
-            <h1>Education</h1>
             
-            <div class="experience-grid">
+            <!-- Header Judul + Tombol Tambah -->
+            <div class="experience-header">
+                <h1>Education</h1>
+                <a href="{% url 'main:create_education' %}" class="button experience-add-button">
+                    <span aria-hidden="true">+</span>
+                    Tambah Pendidikan
+                </a>
+            </div>
+
+            <!-- Form Pencarian Institusi -->
+            <form method="get" action="{% url 'main:show_education' %}" class="experience-search">
+                <input type="search"
+                       name="school"
+                       value="{{ school_query }}"
+                       placeholder="Cari berdasarkan nama institusi atau sekolah..."
+                       class="experience-search_input"
+                       aria-label="Cari sekolah">
+                <button type="submit" class="button">Cari</button>
+            </form>
+            
+            <!-- Daftar Kartu Riwayat Pendidikan -->
+            <div class="experience-grid experience-grid-layout">
                 {% for edu in education_list %}
                     <article class="experience-card">
                         <span class="experience-category">
                             {{ edu.started_year }} - {% if edu.is_ongoing %}Sekarang{% else %}{{ edu.ended_year }}{% endif %}
                         </span>
                         <h2>{{ edu.degree }}</h2>
-                        <h3 style="font-size: 1rem; color: var(--ink); margin-bottom: 0.5rem;">{{ edu.school }}</h3>
+                        <h3 style="font-size: 1.05rem; color: var(--ink); margin-bottom: 0.5rem;">{{ edu.school }}</h3>
+                        
                         {% if edu.description %}
                             <p class="experience-description">{{ edu.description }}</p>
                         {% endif %}
+                        
                         {% if edu.is_ongoing %}
                             <p class="experience-status">Sedang ditempuh</p>
                         {% else %}
                             <p class="experience-status">Lulus</p>
                         {% endif %}
+
+                        <!-- Tombol Edit dan Modal Hapus -->
+                        <div class="experience-card-actions">
+                            <div class="experience-actions">
+                                <a href="{% url 'main:edit_education' edu.id %}" class="button button-secondary">
+                                    Edit
+                                </a>
+                                {% include "components/education_delete_modal.html" with edu=edu %}
+                            </div>
+                        </div>
                     </article>
                 {% empty %}
-                    <p class="empty-state">Belum ada data pendidikan yang ditambahkan.</p>
+                    {% if school_query %}
+                        <p class="empty-state">Tidak ditemukan riwayat pendidikan dengan kata kunci "{{ school_query }}".</p>
+                    {% else %}
+                        <p class="empty-state">Belum ada data pendidikan yang ditambahkan.</p>
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>

@@ -1,5 +1,5 @@
-from django.forms import ModelForm, TextInput, Textarea, URLInput, Select, DateInput
-from main.models import Experience
+from django.forms import ModelForm, TextInput, Textarea, URLInput, Select, DateInput, NumberInput
+from main.models import Experience, Education
 
 class ExperienceForm(ModelForm):
     class Meta:
@@ -46,6 +46,54 @@ class ExperienceForm(ModelForm):
             "ended_at": DateInput(
                 attrs={
                     "type": "date",
+                }
+            ),
+        }
+
+class EducationForm(ModelForm):
+    class Meta:
+        model = Education
+        fields = [
+            "school",
+            "degree",
+            "started_year",
+            "ended_year",
+            "description",
+        ]
+
+        labels = {
+            "school": "Nama Sekolah / Institusi",
+            "degree": "Jenjang / Jurusan",
+            "started_year": "Tahun Mulai",
+            "ended_year": "Tahun Selesai (Kosongkan jika msaih berlangsung)",
+            "description": "Deskripsi",
+        }
+
+        widgets = {
+            "school": TextInput(
+                attrs={
+                    "placeholder": "Contoh: Universitas Indonesia"
+                }
+            ),
+            "degree": TextInput(
+                attrs={
+                    "placeholder": "Contoh: S1 Ilmu Komputer"
+                }
+            ),
+            "started_year": NumberInput(
+                attrs={
+                    "placeholder": "2024"
+                }
+            ),
+            "ended_year": NumberInput(
+                attrs={
+                    "placeholder": "Kosongkan jika masih memnpuh pendidikan"
+                }
+            ),
+            "descrition": Textarea(
+                attrs={
+                    "rows": 4,
+                    "placeholder": "Fokus pembelajaran, pencapaian, atau kegiatan akademis...",
                 }
             ),
         }

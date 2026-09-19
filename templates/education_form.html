@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block meta %}
+    <title>Tambah Pendidikan - {{ name }}</title>
+{% endblock meta %}
+
+{% block content %}
+<main>
+    <section class="experience-section">
+        <div class="container">
+            <p class="section-kicker">Formulir Pendidikan</p>
+            <h1>Tambah Riwayat Pendidikan</h1>
+
+            <form method="post" class="experience-form">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% for error in field.errors %}
+                            <p class="form-error">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+                    <button type="submit" class="button">Simpan Data</button>
+                    <a href="{% url 'main:show_education' %}" class="button button-secondary">Batal</a>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+{% endblock content %}

@@ -1,0 +1,48 @@
+<button type="button"
+        class="button button-danger"
+        popovertarget="delete-education-{{ edu.id }}"
+        aria-label="Hapus {{ edu.degree }}"
+        title="Hapus riwayat pendidikan">
+    Hapus
+</button>
+
+<div id="delete-education-{{ edu.id }}"
+     class="experience-delete-modal"
+     popover="auto"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="delete-education-title-{{ edu.id }}">
+    
+    <!-- Backdrop Gelap di Belakang -->
+    <button type="button"
+            class="experience-delete-modal_backdrop"
+            popovertarget="delete-education-{{ edu.id }}"
+            popovertargetaction="hide"
+            aria-label="Tutup konfirmasi hapus"></button>
+
+    <!-- Konten Modal di Depan Backdrop -->
+    <div class="experience-delete-modal_content">
+        <button type="button"
+                class="experience-delete-modal_close"
+                popovertarget="delete-education-{{ edu.id }}"
+                popovertargetaction="hide"
+                aria-label="Tutup konfirmasi hapus">&times;</button>
+        
+        <h2 id="delete-education-title-{{ edu.id }}">Hapus Riwayat Pendidikan?</h2>
+        <p>
+            Apakah Anda yakin ingin menghapus data 
+            <strong>{{ edu.degree }} - {{ edu.school }}</strong>?
+        </p>
+
+        <div class="experience-delete-modal_actions">
+            <button type="button"
+                    class="button button-secondary"
+                    popovertarget="delete-education-{{ edu.id }}"
+                    popovertargetaction="hide">Batal</button>
+            <form method="post" action="{% url 'main:delete_education' edu.id %}" style="margin: 0;">
+                {% csrf_token %}
+                <button type="submit" class="button button-danger">Ya, Hapus</button>
+            </form>
+        </div>
+    </div>
+</div>
