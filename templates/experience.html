@@ -55,6 +55,13 @@
                             <div class="experience-card-actions">
                                 <div class="experience-actions">
                                     {% include "components/experience_star.html" with experience=experience %}
+
+                                    {% if user.is_superuser or is_editor %}
+                                        <a href="{% url 'main:edit_experience' experience.id %}" class="button button-secondary">
+                                            Edit
+                                        </a>
+                                    {% endif %}
+
                                     {% if user.is_superuser %}
                                         {% include "components/experience_delete_modal.html" with experience=experience %}
                                     {% endif %}
@@ -73,47 +80,3 @@
         </section>
     </main>
 {% endblock content %}
-
-<p class="experience-status">
-    <button type="button"
-            class="button button-danger"
-            popovertarget="delete-experience-{{ experience.id }}"
-            aria-label="Hapus {{ experience.title }}"
-            title="Hapus experience">
-        Hapus Experience
-    </button>
-</p>
-<div id="delete-experience-{{ experience.id }}"
-     class="experience-delete-modal"
-     popover="auto"
-     role="dialog"
-     aria-modal="true"
-     aria-labelledby="delete-experience-title-{{ experience.id }}">
-    <button type="button"
-            class="experience-delete-modal_backdrop"
-            popovertarget="delete-experience-{{ experience.id }}"
-            popovertargetaction="hide"
-            aria-label="Tutup konfirmasi hapus"></button>
-    <div class="experience-delete-modal_content">
-        <button type="button"
-                class="experience-delete-modal_close"
-                popovertarget="delete-experience-{{ experience.id }}"
-                popovertargetaction="hide"
-                aria-label="Tutup konfirmasi hapus">×</button>
-        <h2 id="delete-experience-title-{{ experience.id }}">Hapus Experience?</h2>
-        <p>
-            Apakah Anda yakin ingin menghapus
-            <strong>{{ experience.title }}</strong>?
-        </p>
-        <div class="experience-delete-modal_actions">
-            <button type="button"
-                    class="button button-secondary"
-                    popovertarget="delete-experience-{{ experience.id }}"
-                    popovertargetaction="hide">Batal</button>
-            <form method="post" action="{% url 'main:delete_experience' experience.id %}">
-                {% csrf_token %}
-                <button type="submit" class="button button-danger">Ya, Hapus</button>
-            </form>
-        </div>
-    </div>
-</div>

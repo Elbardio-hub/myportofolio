@@ -13,10 +13,12 @@
             <!-- Header Judul + Tombol Tambah -->
             <div class="experience-header">
                 <h1>Education</h1>
+                {% if user.is_superuser %}
                     <a href="{% url 'main:create_education' %}" class="button experience-add-button">
                         <span aria-hidden="true">+</span>
                         Tambah Pendidikan
                     </a>
+                {% endif %}
             </div>
 
             <!-- Form Pencarian Institusi -->
@@ -53,10 +55,15 @@
                         <!-- Tombol Edit dan Modal Hapus -->
                         <div class="experience-card-actions">
                             <div class="experience-actions">
-                                <a href="{% url 'main:edit_education' edu.id %}" class="button button-secondary">
-                                    Edit
-                                </a>
-                                {% include "components/education_delete_modal.html" with edu=edu %}
+                                {% if user.is_superuser or is_editor %}
+                                    <a href="{% url 'main:edit_education' edu.id %}" class="button button-secondary">
+                                        Edit
+                                    </a>
+                                {% endif %}
+
+                                {% if user.is_superuser %}
+                                    {% include "components/education_delete_modal.html" with edu=edu %}
+                                {% endif %}
                             </div>
                         </div>
                     </article>

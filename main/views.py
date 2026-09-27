@@ -42,6 +42,7 @@ def show_experience(request):
         "name": "Ardi",
         "experience_list": experiences,
         "title_query": title_query,
+        "is_editor": is_editor_user(request.user),
     }
     return render(request, "experience.html", context)
     
@@ -61,6 +62,7 @@ def show_education(request):
         "name": "Ardi",
         "education_list": educations,
         "school_query": school_query,
+        "is_editor": is_editor_user(request.user),
     }
     return render(request, "education.html", context)
 
@@ -104,7 +106,10 @@ def delete_experience(request, experience_id):
 
     return redirect("main:show_experience")
 
+@login_required(login_url="/login/")
 def create_education(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
     form = EducationForm(request.POST or None)
 
     if request.method == "POST" and form.is_valid():
@@ -128,7 +133,10 @@ def get_education_json(request):
     education_json = serializers.serialize("json", education)
     return HttpResponse(education_json, content_type="application/json")
 
+@login_required(login_url="/login/")
 def edit_education(request, education_id):
+    if not (request.user.is_superuser or is_editor_user(request.user)):
+        raise PermissionDenied
     education = get_object_or_404(Education, pk=education_id)
     form = EducationForm(request.POST or None, instance=education)
 
@@ -145,7 +153,10 @@ def edit_education(request, education_id):
 
     return render(request, "education_edit_form.html", context)
 
+@login_required(login_url="/login/")
 def delete_education(request, education_id):
+    if not request.user.is_superuser:
+        raise PermissionDenied
     education = get_object_or_404(Education, pk=education_id)
     if request.method == "POST":
         education.delete()
@@ -201,3 +212,26 @@ def toggle_star(request, experience_id):
             experience.starred_by.add(request.user)
 
     return redirect("main:show_experience")
+
+def is_editor_user(user):
+    return user.is_authenticated and user.groups.filter(name="Editor").exists()
+
+@login_required(login_url = "/login/")
+def edit_experience(request, experience_id):
+    if not (request.user.is_superuser or is_editor_user(request.user)):
+        raise PermissionDenied
+    
+    experience = get_object_or_404(Experience, pk=experience_id)
+    form = ExperienceForm(request.POST or None, instance=experience)
+
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Pengalaman berhasil diperbarui!")
+        return redirect("main:show_experience")
+
+    context = {
+        "name": "Ardi",
+        "form": form,
+        "experience": experience,
+    }
+    return render(request, "experience_edit_form.html", context)

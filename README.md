@@ -49,3 +49,7 @@ Hasil studi Mozilla Developer Network (2024) menunjukkan bahwa parsing JSON rata
 
 ### AI Disclosure
 Menggunakan gemini untuk membantu saya dalam membuat file html baru yang diperlukan seperti education_delete_modal.html, education_form.html, dan education_edit_form.html untuk menyesuaikannya dengan style.css yang sudah ada. Selebihnya saya mengikuti tutorial 3.
+
+### Tugas 4
+### AI Disclosure
+Menggunakan gemini untuk menanyakan hal-hal yang masih belum saya pahami mengenai tutorial 4, selebihnya saya mengikuti tutorial 4 terutama bagian # untuk mengejakan Tugas Individu 4
