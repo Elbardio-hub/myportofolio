@@ -53,3 +53,15 @@ Menggunakan gemini untuk membantu saya dalam membuat file html baru yang diperlu
 ### Tugas 4
 ### AI Disclosure
 Menggunakan gemini untuk menanyakan hal-hal yang masih belum saya pahami mengenai tutorial 4, selebihnya saya mengikuti tutorial 4 terutama bagian # untuk mengejakan Tugas Individu 4
+
+### Tugas 5
+1. Debouncing adalah teknik pemrograman yang digunakan untuk menunda eksekusi suatu fungsi hingga jeda waktu tertentu berlalu tanpa adanya interaksi atau event baru dari pengguna. Saat pengguna mengetik di kolom pencarian, setiap ketukan tombol akan membatalkan timer sebelumnya menggunakan clearTimeout dan memulai hitungan waktu baru dengan setTimeout. Alhasil, fungsi pencarian AJAX hanya akan benar-benar dijalankan setelah pengguna berhenti mengetik selama durasi yang ditentukan.
+
+Teknik ini penting karena jika kita tidak menerapkannya, peramban akan langsung mengirim permintaan HTTP ke server untuk setiap karakter yang dimasukkan. Yang dimana ini akan membebani basis data dan server secara berlebihan, dan rentan menimbulkan race condition.
+
+2. await berfungsi untuk menunda atau menunggu penyelesaian suatu Promise di dalam fungsi bertanda async. Saat dipasangkan dengan fetch(), await menahan alur kerja sementara hingga permintaan jaringan selesai diproses oleh server dan mengembalikan objek Response secara utuh. Jika kita tidak menggunakan await, proses pemanggilan fetch() akan tetap berjalan di latar belakang dan baris kode berikutnya akan langsung dieksekusi seketika. Akibatnya, variabel yang menampung pemanggilan tersebut bukan berisi objek data balasan dari server, melainkan instans Promise yang statusnya masih berjalan (pending). Hal ini memicu galat (runtime error), karena operasi lanjutan seperti memanggil response.json() atau membaca properti data akan gagal dieksekusi pada Promise yang belum selesai.
+
+3. Cross-Site Scripting (XSS) adalah serangan keamanan web di mana penyerang berhasil menyisipkan skrip berbahaya (biasanya JavaScript) ke dalam halaman web yang kemudian dijalankan oleh peramban pengguna lain. Data yang ditampilkan melalui AJAX/JavaScript lebih rentan terhadap serangan XSS karena tidak adanya perlindungan auto-escaping otomatis dari Django saat data disisipkan langsung ke dalam DOM melalui properti seperti innerHTML, sehingga peramban memperlakukan tag HTML mentah di dalam data sebagai kode aktif yang langsung dieksekusi.
+
+### AI Disclosure
+Menggunakan gemini untuk debugging dan menambahkan fitur baru yg tdk ada di tutorial 5.

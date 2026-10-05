@@ -797,3 +797,119 @@ h1, .brand {
         text-align: center;
     }
 }
+
+.star-form {
+    display: inline-flex;
+    margin: 0;
+}
+.button-star {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--ink);
+    color: #ffffff;
+}
+.button-star.is-starred {
+    background: var(--accent);
+}
+.star-count {
+    padding: 0.05rem 0.4rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.25);
+    font-size: 0.8rem;
+}
+.education-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.education-toolbar .experience-search {
+    flex: 1;
+    display: flex;
+    gap: 0.75rem;
+    margin: 0;
+}
+
+.education-toolbar .experience-search_input {
+    flex: 1;
+}
+
+.education-sort-box {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-shrink: 0;
+}
+
+.education-sort-box label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+/* Desain Dropdown Elegan, Modern, dan Sesuai Tema Portofolio */
+.education-sort-box select {
+    padding: 0.68rem 2.2rem 0.68rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231c1917'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1.1rem;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    transition: border-color 0.2s ease;
+}
+
+.education-sort-box select:focus {
+    border-color: var(--accent);
+    outline: 2px solid var(--accent);
+}
+
+/* Penataan Tombol Star Agar Rata Horizontal */
+.star-form {
+    display: inline-flex;
+    margin: 0;
+}
+.button-star {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--ink);
+    color: #ffffff;
+}
+.button-star.is-starred {
+    background: var(--accent);
+}
+.star-count {
+    padding: 0.05rem 0.4rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.25);
+    font-size: 0.8rem;
+}
+
+@media (max-width: 600px) {
+    .education-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+    .education-sort-box {
+        justify-content: flex-end;
+    }
+}

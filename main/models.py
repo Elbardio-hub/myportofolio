@@ -1,4 +1,3 @@
-
 from django.contrib.auth.models import User
 from django.db import models
 import uuid
@@ -38,7 +37,10 @@ class Education(models.Model):
     started_year = models.IntegerField()
     ended_year = models.IntegerField(blank=True, null=True)
     description = models.TextField(blank=True)
-
+    starred_by = models.ManyToManyField(
+        User, related_name="starred_educations", blank=True
+    )
+    
     def __str__(self):
         return f"{self.degree} - {self.school}"
 

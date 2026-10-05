@@ -111,3 +111,18 @@ class EducationForm(ModelForm):
                 }
             ),
         }
+
+    def clean_school(self):
+        school = strip_tags(self.cleaned_data.get("school", "")).strip()
+        if not school:
+            raise ValidationError("Nama institusi tidak boleh kosong atau hanya berisi tag HTML.")
+        return school
+
+    def clean_degree(self):
+        degree = strip_tags(self.cleaned_data.get("degree", "")).strip()
+        if not degree:
+            raise ValidationError("Jenjang atau jurusan tidak boleh hanya berisi tag HTML.")
+        return degree
+
+    def clean_description(self):
+        return strip_tags(self.cleaned_data.get("description", "")).strip()

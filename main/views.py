@@ -13,6 +13,8 @@ from django.core.exceptions import PermissionDenied
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 import datetime
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 # Create your views here.
 
 def show_main(request):
@@ -42,21 +44,13 @@ def show_experience(request):
     
 
 def show_education(request):
-    json_response = get_education_json(request)
-
-    educations = serializers.deserialize(
-        "json",
-        json_response.content.decode("UTF-8")
-    )
-
-    educations = [education.object for education in educations]
     school_query = request.GET.get("school", "").strip()
 
     context = {
         "name": "Ardi",
-        "education_list": educations,
         "school_query": school_query,
         "is_editor": is_editor_user(request.user),
+        "form": EducationForm(),
     }
     return render(request, "education.html", context)
 
@@ -139,18 +133,42 @@ def create_education(request):
 
 def get_education_json(request):
     school_query = request.GET.get("school", "").strip()
-    education = Education.objects.all().order_by("-started_year")
+    sort_order = request.GET.get("sort", "desc").strip()
+    order_by_clause = "-started_year" if sort_order == "desc" else "started_year"
+    educations = Education.objects.prefetch_related('starred_by').all().order_by(order_by_clause)
 
     if school_query:
-        education = education.filter(school__icontains=school_query)
+        educations = educations.filter(school__icontains=school_query)
 
-    education_json = serializers.serialize("json", education)
-    return HttpResponse(education_json, content_type="application/json")
+    data = []
+    for edu in educations:
+        starred_users = edu.starred_by.all()
+        is_starred = request.user in starred_users if request.user.is_authenticated else False
+        starred_by_names = ", ".join([u.username for u in starred_users])
+
+        data.append({
+            "pk": str(edu.id),
+            "fields": {
+                "school": edu.school,
+                "degree": edu.degree,
+                "started_year": edu.started_year,
+                "ended_year": edu.ended_year,
+                "is_ongoing": edu.is_ongoing,
+                "description": edu.description,
+                "star_count": starred_users.count(),
+                "is_starred": is_starred,
+                "starred_by_names": starred_by_names,
+            }
+        })
+
+    return JsonResponse(data, safe=False)
 
 @login_required(login_url="/login/")
 def edit_education(request, education_id):
-    if not (request.user.is_superuser or is_editor_user(request.user)):
+    # Hak akses: hanya superuser yang boleh mengedit
+    if not request.user.is_superuser:
         raise PermissionDenied
+
     education = get_object_or_404(Education, pk=education_id)
     form = EducationForm(request.POST or None, instance=education)
 
@@ -159,23 +177,23 @@ def edit_education(request, education_id):
         messages.success(request, "Riwayat pendidikan berhasil diperbarui!")
         return redirect("main:show_education")
 
+    # Wajib ada agar objek form terkirim ke template saat GET
     context = {
         "name": "Ardi",
         "form": form,
         "education": education,
     }
-
     return render(request, "education_edit_form.html", context)
 
 @login_required(login_url="/login/")
 def delete_education(request, education_id):
+    """Menghapus entitas riwayat pendidikan (khusus superuser)."""
     if not request.user.is_superuser:
         raise PermissionDenied
     education = get_object_or_404(Education, pk=education_id)
     if request.method == "POST":
         education.delete()
         messages.success(request, "Riwayat pendidikan berhasil dihapus!")
-        return redirect("main:show_education")
     return redirect("main:show_education")
 
 def register(request):
@@ -250,10 +268,6 @@ def edit_experience(request, experience_id):
     }
     return render(request, "experience_edit_form.html", context)
 
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
-from main.forms import ExperienceForm
-
 @require_POST
 def create_experience_ajax(request):
     if not request.user.is_superuser:
@@ -271,3 +285,39 @@ def create_experience_ajax(request):
         )
 
     return JsonResponse({"errors": form.errors.get_json_data()}, status=400)
+
+def create_education_ajax(request):
+    """
+    Endpoint mutasi POST via AJAX untuk menambahkan riwayat pendidikan baru.
+    Menerapkan verifikasi hak akses Superuser dan merespons dengan status HTTP
+    201 (Created), 400 (Bad Request), atau 403 (Forbidden).
+    """
+    if not request.user.is_superuser:
+        return JsonResponse(
+            {"message": "Hanya pemilik portofolio yang berhak menambahkan riwayat pendidikan."},
+            status=403,
+        )
+
+    form = EducationForm(request.POST)
+    if form.is_valid():
+        edu = form.save()
+        return JsonResponse(
+            {"message": "Riwayat pendidikan berhasil ditambahkan.", "pk": str(edu.id)},
+            status=201,
+        )
+
+    return JsonResponse({"errors": form.errors.get_json_data()}, status=400)
+
+@login_required(login_url="/login/")
+def toggle_star_education(request, education_id):
+    """
+    Menangani aksi penambahan atau pembatalan bintang (star/unstar) pada entitas Education.
+    Hanya dapat diakses melalui metode POST oleh pengguna yang telah login.
+    """
+    edu = get_object_or_404(Education, pk=education_id)
+    if request.method == "POST":
+        if request.user in edu.starred_by.all():
+            edu.starred_by.remove(request.user)
+        else:
+            edu.starred_by.add(request.user)
+    return redirect("main:show_education")
